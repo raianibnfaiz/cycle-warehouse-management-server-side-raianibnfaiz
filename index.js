@@ -16,7 +16,7 @@ const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 async function run() {
     try {
-        const productCollection = client.db('warehouse').collection('cycle2');
+        const productCollection = client.db('warehouse').collection('bicycle');
         app.get('/products', async (req, res) => {
             const query = {};
             const cursor = productCollection.find(query);
@@ -29,6 +29,13 @@ async function run() {
             const result = await productCollection.findOne(query);
             res.send(result);
         })
+        app.delete('/product/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await productCollection.deleteOne(query);
+            res.send(result);
+        })
+
         app.put('/product/:id', async (req, res) => {
             const id = req.params.id;
             const updatedProduct = req.body;
