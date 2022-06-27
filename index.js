@@ -35,6 +35,21 @@ async function run() {
             const result = await productCollection.findOne(query);
             res.send(result);
         })
+        app.get('/myProducts', async (req, res) => {
+            const email = req.query.email;
+            console.log(email);
+            const query = { email: email };
+            const cursor = productCollection.find(query);
+            const products = await cursor.toArray();
+            res.send(products);
+        })
+
+        // app.get('/myProducts/:email', (req, res) => {
+        //     const email = req.params.email;
+        //     const product = productCollection.find({ email: email }).toArray();
+        //     res.send(product);
+        // })
+
         app.delete('/product/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
