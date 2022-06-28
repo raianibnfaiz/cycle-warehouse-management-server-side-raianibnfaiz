@@ -64,7 +64,7 @@ async function run() {
             res.send(result);
         })
 
-        app.get('/myProducts', async (req, res) => {
+        app.get('/myProducts', verifyJWT, async (req, res) => {
             const decodedEmail = req.decoded.email;
             const email = req.query.email;
             console.log(email);
