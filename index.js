@@ -64,16 +64,15 @@ async function run() {
             res.send(result);
         })
 
-        app.get('/myProducts', verifyJWT, async (req, res) => {
-            const decodedEmail = req.decoded.email;
+        app.get('/myProducts', async (req, res) => {
             const email = req.query.email;
             console.log(email);
-            if (email === decodedEmail) {
-                const query = { email: email };
-                const cursor = productCollection.find(query);
-                const products = await cursor.toArray();
-                res.send(products);
-            }
+
+            const query = { email: email };
+            const cursor = productCollection.find(query);
+            const products = await cursor.toArray();
+            res.send(products);
+
             // else {
             //     res.status(403).send({ message: 'forbidden access' })
             // }
